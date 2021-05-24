@@ -1,8 +1,8 @@
-import { Response, Request, NextFunction } from 'express';
+import { Response, Request } from 'express';
 import jwt from 'jsonwebtoken';
 import Usuario from '../models/usuario';
 
-const validarJWT = async (req: Request, res: Response, next:NextFunction) => {
+const validarJWT = async (req: Request, res: Response, next:any) => {
     const token = req.header('x-token');
     if (!token) {
         return res.status(401).json({
@@ -12,9 +12,7 @@ const validarJWT = async (req: Request, res: Response, next:NextFunction) => {
     try {
 
         const key = process.env.SECRETORPRIVATEKEY || '';
-
-        const {uid} = Object(jwt.verify(token, key));
-
+        const { uid } = Object(jwt.verify(token, key));
         const usuario = await Usuario.findById(uid);
 
         if (!usuario) {
@@ -40,4 +38,3 @@ const validarJWT = async (req: Request, res: Response, next:NextFunction) => {
 }
 
 export default validarJWT;
-

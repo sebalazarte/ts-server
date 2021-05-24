@@ -1,14 +1,26 @@
 import express, { Application } from 'express';
-import userRotes from '../routes/usuario';
 import cors from 'cors'
 import dbConnection from '../database/config';
+
+import usuarioRoutes from '../routes/usuario';
+import categoriaRoutes from '../routes/categoria';
+import productoRoutes from '../routes/producto';
+import authRoutes from '../routes/auth';
+import searchRoutes from '../routes/buscar';
+import uploadsRoutes from '../routes/uploads';
+
 
 class Server {
 
     private app: Application;
     private port: String;
     private apiPaths = {
-        usuarios: '/api/usuarios'
+        auth: '/api/auth',
+        buscar: '/api/buscar',
+        categorias: '/api/categorias',
+        productos: '/api/productos',
+        usuarios: '/api/usuarios',
+        uploads: '/api/uploads'
     };
 
     constructor() {
@@ -36,7 +48,12 @@ class Server {
     }
 
     routes() {
-        this.app.use(this.apiPaths.usuarios, userRotes);
+        this.app.use(this.apiPaths.auth, authRoutes);
+        this.app.use(this.apiPaths.buscar, searchRoutes);
+        this.app.use(this.apiPaths.categorias, categoriaRoutes);
+        this.app.use(this.apiPaths.productos, productoRoutes);
+        this.app.use(this.apiPaths.uploads, uploadsRoutes);
+        this.app.use(this.apiPaths.usuarios, usuarioRoutes);
     }
 
     listen() {

@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import { getUsuarios, getUsuario, postUsuario, putUsuario, deleteUsuario } from '../controllers/usuario';
 import { check } from 'express-validator';
 import validarCampos from '../middlewares/validar-campos';
 import { existeEmail } from '../helpers/db-validators';
 import validarJWT from '../middlewares/validar-jwt';
+import { getUsuarios, getUsuario, postUsuario, putUsuario, deleteUsuario } from '../controllers/usuario';
 
 const router = Router();
 

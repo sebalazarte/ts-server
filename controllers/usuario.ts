@@ -1,8 +1,8 @@
-import {Request, Response} from 'express'
+import { Request, Response } from 'express'
 import Usuario from '../models/usuario';
 import bcryptjs from 'bcryptjs';
 
-export const getUsuarios = async(req: Request, res: Response) =>{
+export const getUsuarios = async (req: Request, res: Response) => {
 
     const { limite = 5, desde = 0 } = req.query;
     const query = { estado: true };
@@ -18,18 +18,18 @@ export const getUsuarios = async(req: Request, res: Response) =>{
     });
 }
 
-export const getUsuario = async(req: Request, res: Response) => {
+export const getUsuario = async (req: Request, res: Response) => {
 
-    const {id} = req.params;
-    
+    const { id } = req.params;
+
     const usuario = await Usuario.findById(id);
-    
+
     res.json({
         usuario
     });
 }
 
-export const postUsuario = async(req: Request, res: Response) => {
+export const postUsuario = async (req: Request, res: Response) => {
 
     const { nombre, correo, password, rol } = req.body;
     const usuario = new Usuario({ nombre, correo, password, rol });
@@ -45,7 +45,7 @@ export const postUsuario = async(req: Request, res: Response) => {
     });
 }
 
-export const putUsuario = async(req: Request, res: Response) => {
+export const putUsuario = async (req: Request, res: Response) => {
 
     const { id } = req.params;
     const { _id, password, google, correo, ...resto } = req.body;
@@ -63,16 +63,12 @@ export const putUsuario = async(req: Request, res: Response) => {
     });
 }
 
-export const deleteUsuario = async(req: Request, res: Response) => {
+export const deleteUsuario = async (req: Request, res: Response) => {
 
     const { id } = req.params;
-    // const {usuarioAutenticado} = req.usuario;
-
-    //borandolo fisicamente
-    // const usuario = await Usuario.findByIdAndDelete(id);
-
+    
+    const  usuarioAutenticado  = Object(req.usuario);
     const usuario = await Usuario.findByIdAndUpdate(id, { estado: false }, { new: true });
 
-    // res.json({ usuario, usuarioAutenticado });
-    res.json({ usuario });
+    res.json({ usuario, usuarioAutenticado });
 }
