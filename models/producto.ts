@@ -6,9 +6,9 @@ interface IProducto extends Document {
     usuario: ObjectId;
     precio: number;
     categoria: ObjectId;
-    descripcion: string;
-    disponible: boolean;
-    img: string;
+    descripcion?: string;
+    disponible?: boolean;
+    img?: string;
     readonly id: string;
 }
 
