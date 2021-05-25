@@ -1,6 +1,18 @@
-import { Schema, model } from 'mongoose'
+import { Schema, model, Document, ObjectId } from 'mongoose'
 
-const ProductoSchema = new Schema({
+interface IProducto extends Document {
+    nombre: string;
+    estado: boolean;
+    usuario: ObjectId;
+    precio: number;
+    categoria: ObjectId;
+    descripcion: string;
+    disponible: boolean;
+    img: string;
+    readonly id: string;
+}
+
+const ProductoSchema = new Schema<IProducto>({
     nombre: {
         type: String,
         required: [true, 'El nombre es obigatorio'],
@@ -38,11 +50,11 @@ const ProductoSchema = new Schema({
     }
 })
 
-// ProductoSchema.methods.toJSON = function () {
-//     //saco la version y el password
-//     const { __v, estado, _id, ...data } = this.toObject();
-//     data.id = _id;
-//     return data;
-// }
+ProductoSchema.methods.toJSON = function () {
+    //saco la version y el password
+    const { __v, estado, _id, ...data } = this.toObject();
+    data.id = _id;
+    return data;
+}
 
 export default model('Producto', ProductoSchema);

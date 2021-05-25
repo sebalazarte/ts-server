@@ -1,6 +1,17 @@
-import { Schema, model } from 'mongoose'
+import { Schema, model, Document } from 'mongoose'
 
-const UsuarioSchema = new Schema({
+interface IUsuario extends Document{
+    nombre: string;
+    correo: string;
+    password: string;
+    img: string;
+    rol: string;
+    estado: boolean;
+    google:boolean;
+    readonly uid: string;
+}
+
+const UsuarioSchema = new Schema<IUsuario>({
     nombre: {
         type: String,
         required: [true, 'El nombre es obligatorio']
@@ -34,11 +45,11 @@ const UsuarioSchema = new Schema({
 
 });
 
-// UsuarioSchema.methods.toJSON = function () {
-//     //saco la version y el password
-//     const { __v, password, _id, ...usuario } = this.toObject();
-//     usuario.uid = _id;
-//     return usuario;
-// }
+UsuarioSchema.methods.toJSON = function () {
+    //saco la version y el password
+    const { __v, password, _id, ...usuario } = this.toObject();
+    usuario.uid = _id;
+    return usuario;
+}
 
 export default model('Usuario', UsuarioSchema);

@@ -1,6 +1,13 @@
-import { Schema, model } from 'mongoose'
+import { Schema, model, Document, ObjectId } from 'mongoose'
 
-const CateroriaSchema = new Schema({
+interface ICategoria extends Document {
+    nombre: string;
+    estado: boolean;
+    usuario: ObjectId;
+    readonly id: string;
+}
+
+const CateroriaSchema = new Schema<ICategoria>({
     nombre: {
         type: String,
         required: [true, 'El nombre es obigatorio'],
@@ -18,11 +25,11 @@ const CateroriaSchema = new Schema({
     }
 })
 
-// CateroriaSchema.methods.toJSON = function () {
-//     //saco la version y el password
-//     const { __v, estado, _id, ...categoria } = this.toObject();
-//     categoria.id = _id;
-//     return categoria;
-// }
+CateroriaSchema.methods.toJSON = function () {
+    //saco la version y el password
+    const { __v, estado, _id, ...categoria } = this.toObject();
+    categoria.id = _id;
+    return categoria;
+}
 
 export default model('Categoria', CateroriaSchema);
